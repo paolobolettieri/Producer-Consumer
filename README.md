@@ -20,10 +20,7 @@ public class FileProducer extends AbstractProducer<File> {
 	@Override
 	public void produce() {
 		if (srcFolder != null) {
-			logger.info("Starting flat folder scan...");
-			
 			File[] files = srcFolder.listFiles();
-
 			for (int index = 0; index < files.length; index++) {
 				buffer.put(new Data<File>(files[index], files[index].getName()));	
 			}
@@ -61,8 +58,6 @@ public class Main {
 			consumers.add(new FileConsumer<File>(producer.getBuffer()));
 			consumers.get(i).start();
 		}
-		
 	}
-	
 }
 ```
