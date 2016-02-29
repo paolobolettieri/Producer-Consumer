@@ -18,7 +18,7 @@ public class FileProducer extends AbstractProducer<File> {
 	}
 
 	@Override
-	public void produce() throws InterruptedException {
+	public void produce() {
 		if (srcFolder != null) {
 			logger.info("Starting flat folder scan...");
 			
@@ -51,16 +51,13 @@ public class FileConsumer extends AbstractConsumer<File> {
 ```java
 public class Main {
 	
-	private static final File SRC_DIR = new File("src/test/resources/files");
-	private static final int NUM_CONSUMERS = 4;
-
 	public static void main(String[] args) throws InterruptedException {		
-		AbstractProducer<File> producer = new FileProducer(SRC_DIR, new Buffer<File>(50, true));
+		AbstractProducer<File> producer = new FileProducer(new File("folder"), new Buffer<File>(50, true));
 		producer.start();
 		
 		List<AbstractConsumer<File>> consumers = new ArrayList<AbstractConsumer<File>>();
 		
-		for (int i = 0; i < NUM_CONSUMERS; i++) {
+		for (int i = 0; i < 4; i++) {
 			consumers.add(new FileConsumer<File>(producer.getBuffer()));
 			consumers.get(i).start();
 		}
