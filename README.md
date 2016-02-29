@@ -19,11 +19,9 @@ public class FileProducer extends AbstractProducer<File> {
 
 	@Override
 	public void produce() {
-		if (srcFolder != null) {
-			File[] files = srcFolder.listFiles();
-			for (int index = 0; index < files.length; index++) {
-				buffer.put(new Data<File>(files[index], files[index].getName()));	
-			}
+		File[] files = srcFolder.listFiles();
+		for (int index = 0; index < files.length; index++) {
+			buffer.put(new Data<File>(files[index], files[index].getName()));	
 		}
 	}
 }
@@ -39,7 +37,7 @@ public class FileConsumer extends AbstractConsumer<File> {
 
 	@Override
 	protected void consume(Data<File> data) {
-		logger.info("consuming " + data.getID());
+		System.out.println("consuming " + data.getID());
 	}
 		
 }
