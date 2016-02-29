@@ -32,7 +32,7 @@ public class TestMain {
 		AbstractProducer<File> producer = new FileProducer(SRC_DIR, buffer, new FileProducerParameters());
 		producer.start();
 		
-		List<ConsumerExample<File>> consumers = new ArrayList<ConsumerExample<File>>();
+		List<AbstractConsumer<File>> consumers = new ArrayList<AbstractConsumer<File>>();
 		
 		for (int i = 0; i < NUM_CONSUMERS; i++) {
 			consumers.add(new ConsumerExample<File>(producer.getBuffer()));
