@@ -36,14 +36,14 @@ public class FileProducer extends AbstractProducer<File> {
 ```java
 public class FileConsumer extends AbstractConsumer<File> {
 
-		public FileConsumer(Buffer<File> buffer) {
-			super(buffer);
-		}
+	public FileConsumer(Buffer<File> buffer) {
+		super(buffer);
+	}
 
-		@Override
-		protected void consume(Data<File> data) {
-			logger.info("consuming " + data.getID());
-		}
+	@Override
+	protected void consume(Data<File> data) {
+		logger.info("consuming " + data.getID());
+	}
 		
 }
 ```
