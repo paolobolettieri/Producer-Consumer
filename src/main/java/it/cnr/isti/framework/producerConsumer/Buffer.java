@@ -15,10 +15,19 @@ package it.cnr.isti.framework.producerConsumer;
 
 import java.util.concurrent.ArrayBlockingQueue;
 
+/**
+ * @author Paolo Bolettieri
+ *
+ * @param <T>
+ */
 public class Buffer<T> extends ArrayBlockingQueue<Data<T>> {
 
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * @param capacity
+	 * @param fair
+	 */
 	public Buffer(int capacity, boolean fair) {
 		super(capacity, fair);
 	}

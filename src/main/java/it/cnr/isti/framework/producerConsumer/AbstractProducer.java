@@ -16,6 +16,11 @@ package it.cnr.isti.framework.producerConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * @author Paolo Bolettieri
+ *
+ * @param <T>
+ */
 public abstract class AbstractProducer<T> extends Thread {
 	
 	protected boolean exit = false;
@@ -23,10 +28,16 @@ public abstract class AbstractProducer<T> extends Thread {
 	
 	protected Logger logger = LoggerFactory.getLogger(AbstractProducer.class);
 	
+	/**
+	 * @param buffer
+	 */
 	public AbstractProducer(Buffer<T> buffer) {
 		this.buffer = buffer;
 	}
 			
+	/**
+	 * @param clearBuffer
+	 */
 	public void exit(boolean clearBuffer) {
 		this.exit = true;
 		if (clearBuffer)
@@ -52,8 +63,14 @@ public abstract class AbstractProducer<T> extends Thread {
 		}
 	}
 	
+	/**
+	 * @throws InterruptedException
+	 */
 	public abstract void produce() throws InterruptedException;
 	
+	/**
+	 * @return
+	 */
 	public Buffer<T> getBuffer() {
 		return buffer;
 	}

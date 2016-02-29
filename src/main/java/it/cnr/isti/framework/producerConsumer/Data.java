@@ -13,6 +13,11 @@
 
 package it.cnr.isti.framework.producerConsumer;
 
+/**
+ * @author Paolo Bolettieri
+ *
+ * @param <T>
+ */
 public class Data<T> {
 	
 	private T data;
@@ -20,9 +25,15 @@ public class Data<T> {
 	
 	private boolean over;
 		
+	/**
+	 * 
+	 */
 	private Data() {
 	}
 	
+	/**
+	 * @return
+	 */
 	@SuppressWarnings("rawtypes")
 	public static Data getProcessCompleted() {
 		Data data = new Data();
@@ -30,23 +41,39 @@ public class Data<T> {
 		return data;
 	}
 	
+	/**
+	 * @param data
+	 * @param id
+	 */
 	public Data(T data, String id) {
 		this.data = data;
 		this.id = id;
 	}
 	
+	/**
+	 * @return
+	 */
 	public T getContent() {
 		return data;
 	}
 
+	/**
+	 * @return
+	 */
 	public String getID() {
 		return id;
 	}
 	
+	/**
+	 * 
+	 */
 	private void setOver() {
 		this.over = true;
 	}
 	
+	/**
+	 * @return
+	 */
 	public boolean isOver() {
 		return over;
 	}

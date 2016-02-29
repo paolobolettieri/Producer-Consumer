@@ -16,24 +16,42 @@ package it.cnr.isti.framework.producerConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * @author paolo
+ *
+ * @param <T>
+ */
 public abstract class AbstractConsumer<T> extends Thread {
 
 	private Buffer<T> buffer;
 		
 	protected Logger logger = LoggerFactory.getLogger(AbstractConsumer.class);
 
+	/**
+	 * @param buffer
+	 */
 	public AbstractConsumer(Buffer<T> buffer) {
 		this.buffer = buffer;
 	}
 	
+	
+	/**
+	 * 
+	 */
 	protected void open() {
 		logger.debug("open consumer");
 	}
 
+	/**
+	 * 
+	 */
 	protected void close() {
 		logger.debug("close consumer");
 	}
 	
+	/**
+	 * @param data
+	 */
 	protected abstract void consume(Data<T> data);
 	
 	public Buffer<T> getBuffer() {
