@@ -39,9 +39,7 @@ public class FileConsumer extends AbstractConsumer<File> {
 	protected void consume(Data<File> data) {
 		System.out.println("consuming " + data.getID());
 		System.out.println("file path: " + data.getContent().getPath());
-		
 	}
-		
 }
 ```
 ###Main Class

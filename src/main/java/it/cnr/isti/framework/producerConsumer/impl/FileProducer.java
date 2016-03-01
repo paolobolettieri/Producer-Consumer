@@ -34,19 +34,29 @@ public class FileProducer extends AbstractProducer<File> {
 
 	@Override
 	public void produce() {
-		if (srcFolder != null) {
-			if (parameters.isRecursiveScan())
-				logger.info("Starting recursive folder scan...");
-			else
-				logger.info("Starting flat folder scan...");
-			folderScan(srcFolder);
+		if (srcFolder == null) {
+			logger.error("error, source Folder is null!!!");
+			return;
 		}
+		if (!srcFolder.exists()) {
+			logger.error("error, source folder " + srcFolder.getPath() + " does not exist!");
+			return;
+		}
+		if (!srcFolder.isDirectory()) {
+			logger.error("error, source folder " + srcFolder.getPath() + " is not a folder!");
+			return;
+		}
+		if (parameters.isRecursiveScan())
+			logger.debug("starting recursive folder scan...");
+		else
+			logger.debug("starting flat folder scan...");
+		folderScan(srcFolder);
 	}
 
-	private void folderScan(File dir) {
-		logger.info("scanning: " + dir.getPath());
+	private void folderScan(File folder) {
+		logger.info("scanning " + folder.getPath());
 
-		File[] files = dir.listFiles(parameters.getFileFilter());
+		File[] files = folder.listFiles(parameters.getFileFilter());
 
 		for (int index = 0; index < files.length; index++) {
 			if (exit) {
@@ -57,9 +67,10 @@ public class FileProducer extends AbstractProducer<File> {
 					folderScan(files[index]);
 			} else {
 				try {
+					logger.trace("putting " + files[index].getPath());
 					buffer.put(new Data<File>(files[index], files[index].getName()));
 				} catch (InterruptedException e) {
-					logger.error("Error putting file " + files[index]);
+					logger.error("error putting  " + files[index].getPath());
 					e.printStackTrace();
 				}
 			}
