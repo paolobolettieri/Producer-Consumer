@@ -11,70 +11,38 @@
  ******************************************************************************/
 
 
-package it.cnr.isti.framework.producerConsumer;
+package it.cnr.isti.framework.producerConsumer.examples;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-/**
- * @author Paolo Bolettieri
- *
- * @param <T>
- */
-public abstract class AbstractConsumer<T> extends Thread {
+import it.cnr.isti.framework.producerConsumer.AbstractProducer;
+import it.cnr.isti.framework.producerConsumer.Buffer;
+import it.cnr.isti.framework.producerConsumer.Data;
 
-	private Buffer<T> buffer;
-		
-	protected Logger logger = LoggerFactory.getLogger(AbstractConsumer.class);
+import java.io.File;
 
-	/**
-	 * @param buffer
-	 */
-	public AbstractConsumer(Buffer<T> buffer) {
-		this.buffer = buffer;
-	}
-	
-	
-	/**
-	 * 
-	 */
-	protected void open() {
-		logger.debug("open consumer");
-	}
+public class SimpleFileProducer extends AbstractProducer<File> {
 
-	/**
-	 * 
-	 */
-	protected void close() {
-		logger.debug("close consumer");
-	}
-	
-	/**
-	 * @param data
-	 */
-	protected abstract void consume(Data<T> data);
-	
-	public Buffer<T> getBuffer() {
-		return buffer;
+	private File srcFolder;
+
+	public SimpleFileProducer(File srcFolder,
+			Buffer<File> buffer) {
+		super(buffer);
+		this.srcFolder = srcFolder;
 	}
 
 	@Override
-	public void run() {
-		open();
-		try {
-			while (true) {
-				Data<T> data = buffer.take();
-				if (data.isOver()) {
-					buffer.put(data);
-					break;
-				}
-				consume(data);
-			}
-		} catch (InterruptedException ex) {
-			ex.printStackTrace();
-		} finally {
-			close();
+	public void produce() {
+		logger.info("scanning: " + srcFolder.getPath());
+
+		File[] files = srcFolder.listFiles();
+
+		for (int index = 0; index < files.length; index++) {
+			try {
+				buffer.put(new Data<File>(files[index], files[index].getName()));
+			} catch (InterruptedException e) {
+				logger.error("Error putting file " + files[index]);
+				e.printStackTrace();
+			}		
 		}
 	}
-
 }

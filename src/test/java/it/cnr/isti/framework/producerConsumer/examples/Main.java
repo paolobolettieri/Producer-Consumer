@@ -11,40 +11,33 @@
  ******************************************************************************/
 
 
-package it.cnr.isti.framework.producerConsumer;
+package it.cnr.isti.framework.producerConsumer.examples;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.cnr.isti.framework.producerConsumer.impl.FileProducer;
-import it.cnr.isti.framework.producerConsumer.impl.FileProducerParameters;
+import it.cnr.isti.framework.producerConsumer.AbstractConsumer;
+import it.cnr.isti.framework.producerConsumer.AbstractProducer;
+import it.cnr.isti.framework.producerConsumer.Buffer;
 
-public class TestMain {
+public class Main {
 	
 	private static final File SRC_DIR = new File("src/test/resources/files");
 	private static final int NUM_CONSUMERS = 4;
 
-	public static void main(String[] args) throws InterruptedException {
-		System.out.println("Starting Producer Consumer Example ");
-		
-		Buffer<File> buffer = new Buffer<File>(500, true);
-		AbstractProducer<File> producer = new FileProducer(SRC_DIR, buffer, new FileProducerParameters());
+	public static void main(String[] args) throws InterruptedException {		
+		Buffer<File> buffer = new Buffer<File>(50, true);
+		AbstractProducer<File> producer = new SimpleFileProducer(SRC_DIR, buffer);
 		producer.start();
 		
 		List<AbstractConsumer<File>> consumers = new ArrayList<AbstractConsumer<File>>();
 		
 		for (int i = 0; i < NUM_CONSUMERS; i++) {
-			consumers.add(new ConsumerExample<File>(producer.getBuffer()));
+			consumers.add(new SimpleFileConsumer(producer.getBuffer()));
 			consumers.get(i).start();
 		}
-
-		for (int i = 0; i < NUM_CONSUMERS; i++) {
-			consumers.get(i).join();
-		}
 		
-		System.out.println("Example Finished!");
-
 	}
 
 }
