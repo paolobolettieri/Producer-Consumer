@@ -38,6 +38,8 @@ public class FileConsumer extends AbstractConsumer<File> {
 	@Override
 	protected void consume(Data<File> data) {
 		System.out.println("consuming " + data.getID());
+		System.out.println("file path: " + data.getContent().getPath());
+		
 	}
 		
 }
@@ -46,7 +48,7 @@ public class FileConsumer extends AbstractConsumer<File> {
 ```java
 public class Main {
 	
-	public static void main(String[] args) throws InterruptedException {		
+	public static void main(String[] args) {		
 		AbstractProducer<File> producer = new FileProducer(new File("folder"), new Buffer<File>(50, true));
 		producer.start();
 		
